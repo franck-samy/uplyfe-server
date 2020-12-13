@@ -23,7 +23,6 @@ router.get("/all-items", (req, res, next) => {
 
 router.post("/new-item", isLoggedIn, (req, res) => {
   const { category, title, description } = req.body;
-  console.log("REQBOBY", req.body);
 
   Items.create({
     category,
@@ -39,7 +38,8 @@ router.post("/new-item", isLoggedIn, (req, res) => {
     });
 });
 
-router.get("/:id", (req, res) => {
+router.get("/items/:id", (req, res) => {
+  console.log(req.params)
   Items.findById(req.params.id).then((singleItem) => {
     res.json(singleItem);
   });

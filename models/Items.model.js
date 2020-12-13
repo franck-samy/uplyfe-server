@@ -15,7 +15,7 @@ const itemsSchema = new Schema({
       "Food",
       "Finance",
       "Entertainment",
-      "Adventure",
+      "Adventure"
     ],
   },
   title: String,
