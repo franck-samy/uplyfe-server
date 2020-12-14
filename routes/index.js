@@ -55,6 +55,12 @@ router.get("/update-item/:id", (req, res) => {
   });
 });
 
+router.delete("/delete-item/:id", (req, res) => {
+  Items.findByIdAndRemove(req.params.id).then((deleteItem) => {
+    res.json(deleteItem);
+  });
+});
+
 router.put("/item/:id", isLoggedIn, (req, res) => {
   console.log("Hello from router items put");
   console.log(req.params.id);
