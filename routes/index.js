@@ -39,7 +39,7 @@ router.post("/new-item", isLoggedIn, (req, res) => {
 });
 
 router.get("/items/:id", (req, res) => {
-  console.log(req.params)
+  console.log(req.params);
   Items.findById(req.params.id).then((singleItem) => {
     res.json(singleItem);
   });
