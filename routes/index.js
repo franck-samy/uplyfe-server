@@ -2,6 +2,8 @@ const router = require("express").Router();
 const authRoutes = require("./auth");
 const Items = require("../models/Items.model");
 const isLoggedIn = require("../middlewares/isLoggedIn");
+const User = require("../models/User.model");
+const Comments = require("../models/Comments.model");
 
 /* GET home page */
 router.get("/", (req, res, next) => {
@@ -67,13 +69,55 @@ router.put("/item/:id", isLoggedIn, (req, res) => {
 
   Items.findByIdAndUpdate(req.params.id, req.body, { new: true }).then(
     (singleItemUpdated) => {
-      console.log(singleItemUpdated);
+      // console.log(singleItemUpdated);
       res.json(singleItemUpdated);
     }
   );
 });
 
-// router.use("/new-item", newItems);
+router.get("/update-profile/:id", (req, res) => {
+  console.log(req.body);
+  console.log(req.params.id);
+
+  User.findById(req.params.id).then((singleUser) => {
+    res.json(singleUser);
+  });
+});
+
+router.put("/profile/:id", isLoggedIn, (req, res) => {
+  // console.log(req.params.id);
+
+  User.findByIdAndUpdate(req.params.id, req.body, { new: true }).then(
+    (singleUserUpdated) => {
+      //console.log(singleUserUpdated);
+      res.json(singleUserUpdated);
+    }
+  );
+});
+
+router.get("/all-comments", (req, res, next) => {
+  Comments.find()
+    .populate("author")
+    .then((allComments) => {
+      res.json(allComments);
+    });
+});
+
+router.post("/new-comment", isLoggedIn, (req, res) => {
+  console.log("req body", req.body);
+  const { itemID, authorId, commentText } = req.body;
+  Comments.create({
+    comment_item: itemID,
+    author: authorId,
+    commentText,
+  })
+    .then((newComment) => {
+      res.status(201).json(newComment);
+    })
+    .catch((err) => {
+      console.log("Err here", err);
+    });
+});
 
 router.use("/auth", authRoutes);
 
