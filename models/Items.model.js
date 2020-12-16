@@ -6,17 +6,18 @@ const itemsSchema = new Schema({
     ref: "User",
   },
   category: {
-    enum: [
-      "Travel",
-      "Self-Improvment",
-      "Relationships",
-      "Career",
-      "Education",
-      "Food",
-      "Finance",
-      "Entertainment",
-      "Adventure"
-    ],
+    type: String,
+    // enum: [
+    //   "Travel",
+    //   "Self-Improvement",
+    //   "Relationships",
+    //   "Career",
+    //   "Education",
+    //   "Food",
+    //   "Finance",
+    //   "Entertainment",
+    //   "Adventure",
+    // ],
   },
   title: String,
   image: {

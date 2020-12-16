@@ -40,6 +40,23 @@ router.post("/new-item", isLoggedIn, (req, res) => {
     });
 });
 
+router.post("/clone-item", isLoggedIn, (req, res) => {
+  const { category, title, description } = req.body;
+  console.log(req.user);
+  Items.create({
+    category,
+    title,
+    description,
+    owner: req.user,
+  })
+    .then((newItem) => {
+      res.json(newItem);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 router.get("/item/:id", (req, res) => {
   console.log("Hello from router items get");
   console.log("HERE?");
@@ -73,6 +90,14 @@ router.put("/item/:id", isLoggedIn, (req, res) => {
       res.json(singleItemUpdated);
     }
   );
+});
+
+router.get("/userItems/:id", (req, res) => {
+  const userId = req.params.id;
+  Items.find({ owner: userId }).then((data) => {
+    console.log(data);
+    res.json(data);
+  });
 });
 
 router.get("/update-profile/:id", (req, res) => {
