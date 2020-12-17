@@ -15,6 +15,21 @@ router.get("/", (req, res, next) => {
   //   });
 });
 
+router.get("/all-users", (req, res, next) => {
+  User.find()
+    .populate("users")
+    .then((allUsers) => {
+      res.json(allUsers);
+    });
+});
+
+router.get("/user/:id", (req, res) => {
+  console.log("REQ.MATCH", req);
+  User.findById(req.params.id).then((singleUser) => {
+    res.json(singleUser);
+  });
+});
+
 router.get("/all-items", (req, res, next) => {
   Items.find()
     .populate("owner")
@@ -95,7 +110,7 @@ router.put("/item/:id", isLoggedIn, (req, res) => {
 router.get("/userItems/:id", (req, res) => {
   const userId = req.params.id;
   Items.find({ owner: userId }).then((data) => {
-    console.log(data);
+    console.log("OWNER", userId);
     res.json(data);
   });
 });
