@@ -15,6 +15,29 @@ const Session = require("../models/Session.model");
 const shouldNotBeLoggedIn = require("../middlewares/shouldNotBeLoggedIn");
 const isLoggedIn = require("../middlewares/isLoggedIn");
 
+const multer = require("multer");
+const cloudinary = require("cloudinary");
+const multerStorageCloudinary = require("multer-storage-cloudinary");
+
+const storage = new multerStorageCloudinary.CloudinaryStorage({
+  cloudinary: cloudinary.v2,
+});
+const upload = multer({ storage });
+
+router.post("/uploadFile/:id", upload.single("profilePic"), (req, res) => {
+  const id = req.params.id;
+  console.log(req.file);
+  User.findByIdAndUpdate(id, { image: req.file.path }).then((res) => {
+    res
+      .json({
+        imagePath: req.file.path,
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+});
+
 router.get("/session", (req, res) => {
   // we dont want to throw an error, and just maintain the user as null
   if (!req.headers.authorization) {

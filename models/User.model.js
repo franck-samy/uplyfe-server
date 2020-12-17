@@ -9,7 +9,8 @@ const userSchema = new Schema({
   password: String,
   image: {
     type: String,
-    // default: url
+    default:
+      "https://res.cloudinary.com/dbupkxtye/image/upload/v1606471168/zy9yiy4alhmgtieowr2p.jpg",
   },
   inspiration: [],
   inspired: [],
